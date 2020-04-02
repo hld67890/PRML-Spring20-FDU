@@ -9,9 +9,9 @@ cov2 = [[1,0],[0,1]]
 mean3 = (-2,3)
 cov3 = [[1,0],[0,1]]
 
-num1 = 300
-num2 = 300
-num3 = 300
+num1 = 150
+num2 = 150
+num3 = 150
 
 dist1 = np.random.multivariate_normal(mean1,cov1,(num1))
 dist2 = np.random.multivariate_normal(mean2,cov2,(num2))
