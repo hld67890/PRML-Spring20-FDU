@@ -3,7 +3,7 @@ from scipy import stats
 import matplotlib.pyplot as plt
 import random
 
-def getdata ():
+def gendata ():
     mean1 = (1,2)
     cov1 = [[1,0],[0,1]]
     mean2 = (5,5)
@@ -38,13 +38,31 @@ def getdata ():
 
     random.shuffle ( output )
 
-    lines = num1 + num2 + num3
-    
+    fle = open ("data.data" , "w")
+    output = []
+    for i in dist1:
+        output.append ( (i[0],i[1],1) )
+    for i in dist2:
+        output.append ( (i[0],i[1],2) )
+    for i in dist3:
+        output.append ( (i[0],i[1],3) )
+    random.shuffle ( output )
+    fle.write ( str(num1+num2+num3) + '\n' )
+    for i in output:
+        fle.write ( str(i[0]) + " " + str(i[1]) + " " + str(i[2]) + "\n" )
+    fle.close () 
+
+def getdata ():
+    fle = open ( "data.data" , "r" )
+    lines = int(fle.readline())
+    #print ( lines )
     retx = np.empty ( (lines,2) )
     rety = np.empty ( (lines,1) )
     for i in range ( lines ):
-        (retx[i][0],retx[i][1],rety[i]) = output[i]
+        (retx[i][0],retx[i][1],rety[i]) = fle.readline().split()
     rety=rety.astype ( int )
+
+    fle.close ()
     return (lines,retx,rety)
 
 '''
@@ -199,6 +217,7 @@ def testdis ( n , x , y , w , w0 ):
 
     return
 
+gendata()
 
 (n,x,y) = getdata ()
 
