@@ -4,13 +4,46 @@ import matplotlib.pyplot as plt
 import random
 
 def getdata ():
-    fle = open ( "dataset.data" , "r" )
-    lines = int(fle.readline())
-    #print ( lines )
+    mean1 = (1,2)
+    cov1 = [[1,0],[0,1]]
+    mean2 = (5,5)
+    cov2 = [[1,0],[0,1]]
+    mean3 = (-2,3)
+    cov3 = [[1,0],[0,1]]
+
+    num1 = 150
+    num2 = 150
+    num3 = 150
+
+    dist1 = np.random.multivariate_normal(mean1,cov1,(num1))
+    dist2 = np.random.multivariate_normal(mean2,cov2,(num2))
+    dist3 = np.random.multivariate_normal(mean3,cov3,(num3))
+    
+    out1 = dist1.transpose()
+    out2 = dist2.transpose()
+    out3 = dist3.transpose()
+
+    plt.plot(out1[0],out1[1],'o')
+    plt.plot(out2[0],out2[1],'o')
+    plt.plot(out3[0],out3[1],'o')
+    plt.show ()
+
+    output = []
+    for i in dist1:
+        output.append ( (i[0],i[1],1) )
+    for i in dist2:
+        output.append ( (i[0],i[1],2) )
+    for i in dist3:
+        output.append ( (i[0],i[1],3) )
+
+    random.shuffle ( output )
+
+    lines = num1 + num2 + num3
+    
     retx = np.empty ( (lines,2) )
     rety = np.empty ( (lines,1) )
     for i in range ( lines ):
-        (retx[i][0],retx[i][1],rety[i]) = fle.readline().split()
+        (retx[i][0],retx[i][1],rety[i]) = output[i]
     rety=rety.astype ( int )
     return (lines,retx,rety)
 
@@ -167,15 +200,15 @@ def testdis ( n , x , y , w , w0 ):
     return
 
 
-# (n,x,y) = getdata ()
+(n,x,y) = getdata ()
 
-# (pi,mu,sigma) = cal ( n , x , y )
+(pi,mu,sigma) = cal ( n , x , y )
 
-# testgen ( n , x , y , pi , mu , sigma )
+testgen ( n , x , y , pi , mu , sigma )
 
-# epoch = 2000
-# batch = 10
-# alpha = 1e0
-# (w,w0) = sgd ( n , x , y , batch , epoch , alpha )
+epoch = 2000
+batch = 10
+alpha = 1e0
+(w,w0) = sgd ( n , x , y , batch , epoch , alpha )
 
-# testdis ( n , x , y , w , w0 )
+testdis ( n , x , y , w , w0 )
